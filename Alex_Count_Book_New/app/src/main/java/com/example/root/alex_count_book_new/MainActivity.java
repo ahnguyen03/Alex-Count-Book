@@ -9,17 +9,21 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    ArrayList<Counter> counter_list;
+    public static ArrayList<Counter> counter_list;
+    public static ArrayList<String> comment_list;
     CounterListAdapter adapter;
     String incoming_name;
     String incoming_value;
     String incoming_date;
+    String incoming_comment;
+    public  static int size_of_counters;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +46,11 @@ public class MainActivity extends AppCompatActivity {
         counter_list.add(test5);
         adapter = new CounterListAdapter(this,R.layout.adapter_view,counter_list);
         counter_list_view.setAdapter(adapter);
+        size_of_counters = counter_list.size();
 
+        TextView summary_of_counters = (TextView) findViewById(R.id.Number_Counters);
+        Log.d(TAG, "onCreate: The number of counters is " + size_of_counters);
+        summary_of_counters.setText(""+size_of_counters);
 
         Button create_but = (Button)findViewById(R.id.create_button);
 
@@ -67,6 +75,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = new Intent(MainActivity.this,Edit_Create_Screen.class);
                 intent.putExtra("name_of_list",counter_list.get(i).getName());
                 intent.putExtra("value_of_list",counter_list.get(i).getValue());
+                intent.putExtra("comment_of_list",counter_list.get(i).getComment());
+                Log.d(TAG, "onItemClick: the comment is this " + counter_list.get(i).getComment());
                 startActivityForResult(intent,Constants.Intent_request);
             }
         });
@@ -76,17 +86,25 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     protected void onActivityResult(int requestCode , int resultCode, Intent data){
-        Log.d(TAG, "onActivityResult: im before this if statment");
         if(resultCode == Constants.Intent_request){
-            Intent incoming_intent = getIntent();
+
             incoming_name = data.getStringExtra("name");
             incoming_value = data.getStringExtra("value");
             incoming_date = data.getStringExtra("date");
+            incoming_comment = data.getStringExtra("comment");
+            Log.d(TAG, "onActivityResult: the comment is this incoming comment " + incoming_comment);
+
 //            String incoming_value = incoming_intent.getStringExtra("value");
  //           String incoming_date = incoming_intent.getStringExtra("Date");
+
             Log.d(TAG, "onActivityResult: lol im here here now" + incoming_name);
             Counter test14 = new Counter(incoming_name,incoming_value,incoming_date);
+            test14.setComment(incoming_comment);
             counter_list.add(test14);
+            size_of_counters = counter_list.size();
+            Log.d(TAG, "onActivityResult: The size of the counter is  now this value " + size_of_counters);
+            TextView summary_of_counters = (TextView) findViewById(R.id.Number_Counters);
+            summary_of_counters.setText(""+size_of_counters);
             adapter.notifyDataSetChanged();
         }
     }

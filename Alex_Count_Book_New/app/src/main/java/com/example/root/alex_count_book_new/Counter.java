@@ -12,12 +12,21 @@ public class Counter {
     //private Date date;
     private String value;
     private String date;
+    private String comment;
     public Counter(String name, String value, String date){
         this.name = name;
         this.value = value;
         this.date = date;
+        this.comment = comment;
     }
 
+    public String getComment(){
+        return comment;
+    }
+
+    public void setComment(String comment){
+        this.comment = comment;
+    }
     public String getName() {
         return name;
     }

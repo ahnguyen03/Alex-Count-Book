@@ -19,8 +19,13 @@ import java.util.Date;
 
 public class Edit_Create_Screen extends AppCompatActivity {
     private  final String TAG = "Edit_Create_Screen";
-    public static int  value;
-
+    public static int  value = 0;
+    public static int old_value;
+    public static TextView Incoming_data_name;
+    public static TextView Incoming_value_init;
+    public static TextView Incoming_value_current;
+    public static String incoming_value;
+    public static TextView Incoming_comment;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,22 +34,24 @@ public class Edit_Create_Screen extends AppCompatActivity {
         Button save_but = (Button)findViewById(R.id.save_but);
         Button inc_but = (Button)findViewById(R.id.Increment_but);
         Button dec_but = (Button)findViewById(R.id.Decrement_but);
-        //String intial_value = ((EditText)findViewById(R.id.Inital_Value)).getText().toString();
-        //Log.d(TAG, "onCreate: the intial_value is "+ intial_value);
-
-
+        Button reset_but = (Button)findViewById(R.id.reset_but);
+        value = 0;
 
         //This is the data when someone clicks on a list then we grab that data
-
         Intent incomingIntent = getIntent();
         Bundle extra = incomingIntent.getExtras();
         Log.d(TAG, "onCreate: this is bundle extra" +extra);
+
         if(extra != null){
-            TextView Incoming_data_name = (TextView) findViewById(R.id.NameText);
-            TextView Incoming_value_init = (TextView) findViewById(R.id.Initial_value);
-            TextView Incoming_value_current = (TextView) findViewById(R.id.Current_value);
+            Incoming_data_name = (TextView) findViewById(R.id.NameText);
+            Incoming_value_init = (TextView) findViewById(R.id.Initial_value);
+            Incoming_value_current = (TextView) findViewById(R.id.Current_value);
+            Incoming_comment = (TextView)findViewById(R.id.Comment);
+            String incoming_comment = incomingIntent.getStringExtra("comment_of_list");
             String incoming_name = incomingIntent.getStringExtra("name_of_list");
-            String incoming_value = incomingIntent.getStringExtra("value_of_list");
+
+            incoming_value = incomingIntent.getStringExtra("value_of_list");
+            Incoming_comment.setText(incoming_comment);
             Incoming_data_name.setText(incoming_name);
             Incoming_value_init.setText(incoming_value);
             Incoming_value_current.setText(incoming_value);
@@ -57,6 +64,7 @@ public class Edit_Create_Screen extends AppCompatActivity {
         Date date = new Date();
         Log.d(TAG, "onCreate: The date is now " + date);
 
+        //INCREMENT BUTTON
         inc_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,6 +74,7 @@ public class Edit_Create_Screen extends AppCompatActivity {
             }
         });
 
+        //DECREMENT BUTTON
         dec_but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,6 +82,28 @@ public class Edit_Create_Screen extends AppCompatActivity {
                 Display(value);
             }
         });
+
+        //RESET BUTTON
+        reset_but.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String is_there_a_init_value = ((TextView)findViewById(R.id.Initial_value)).getText().toString();
+                Log.d(TAG, "onClick: the is there a init value ? " + is_there_a_init_value);
+            if(is_there_a_init_value.equals("")){
+                value = 0;
+                Display(value);
+            }
+            else{
+
+                Incoming_value_init = (TextView) findViewById(R.id.Initial_value);
+                Log.d(TAG, "onClick: inside the reset the inital value " + incoming_value);
+                value = Integer.parseInt(incoming_value);
+                Display(value);
+            }
+            }
+
+        });
+
 
 
         /*
@@ -107,9 +138,11 @@ public class Edit_Create_Screen extends AppCompatActivity {
         */
     }
 
+    //SAVE BUTTON
     public void Save_button_clicked(View v){
         String Item_name = ((EditText)findViewById(R.id.NameText)).getText().toString();
         String Item_curr_value = ((TextView)findViewById(R.id.Current_value)).getText().toString();
+        String Item_comment = ((EditText)findViewById(R.id.Comment)).getText().toString();
         Date date_to_send = new Date();
         String String_date = date_to_send.toString();
 
@@ -124,6 +157,7 @@ public class Edit_Create_Screen extends AppCompatActivity {
             intent.putExtra("name", Item_name);
             Item_curr_value = "0";
             intent.putExtra("date",String_date);
+            intent.putExtra("comment",Item_comment);
             Log.d(TAG, "Save_button_clicked: the name is " + Item_curr_value);
             setResult(Constants.RESULT_OK,intent);
             finish();
@@ -133,12 +167,12 @@ public class Edit_Create_Screen extends AppCompatActivity {
             intent.putExtra("name", Item_name);
             intent.putExtra("value",Item_curr_value);
             intent.putExtra("date",String_date);
+            intent.putExtra("comment",Item_comment);
             Log.d(TAG, "Save_button_clicked: the name is " + Item_curr_value);
             setResult(Constants.RESULT_OK,intent);
             finish();
         }
     }
-
     public void Display(int num){
         if(num <= 0 ){
             num = 0;
@@ -147,7 +181,5 @@ public class Edit_Create_Screen extends AppCompatActivity {
         TextView displayInteger = (TextView)findViewById(R.id.Current_value);
         displayInteger.setText("" + num);
     }
-
-
 
 }
