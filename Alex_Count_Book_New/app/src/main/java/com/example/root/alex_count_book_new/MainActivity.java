@@ -24,26 +24,22 @@ public class MainActivity extends AppCompatActivity {
     String incoming_date;
     String incoming_comment;
     public  static int size_of_counters;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Log.d(TAG, "onCreate: Started.");
 
-        ListView counter_list_view = (ListView)findViewById(R.id.List_view);
+        final ListView counter_list_view = (ListView)findViewById(R.id.List_view);
 
         Counter test1 = new Counter("test1","1","today1");
         Counter test2 = new Counter("test2","2","today2");
-        Counter test3 = new Counter("test3","3","today3");
-        Counter test4 = new Counter("test4","4","today4");
-        Counter test5 = new Counter("test5","5","today5");
 
         counter_list = new ArrayList<>();
         counter_list.add(test1);
         counter_list.add(test2);
-        counter_list.add(test3);
-        counter_list.add(test4);
-        counter_list.add(test5);
+
         adapter = new CounterListAdapter(this,R.layout.adapter_view,counter_list);
         counter_list_view.setAdapter(adapter);
         size_of_counters = counter_list.size();
@@ -65,9 +61,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
+        //This is when someone clicks on an item then it brings us to the EDIT/CREATE
         counter_list_view.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Log.d(TAG, "onItemClick: names " + counter_list.get(i).getName());
@@ -76,14 +71,15 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra("name_of_list",counter_list.get(i).getName());
                 intent.putExtra("value_of_list",counter_list.get(i).getValue());
                 intent.putExtra("comment_of_list",counter_list.get(i).getComment());
+                intent.putExtra("date_of_list",counter_list.get(i).getDate());
+                Log.d(TAG, "onItemClick: the date of the counter_list i clicked is " + counter_list.get(i).getDate() );
+                //intent.putExtra("date_of_list",counter_list.get(i).getDate());
                 Log.d(TAG, "onItemClick: the comment is this " + counter_list.get(i).getComment());
                 startActivityForResult(intent,Constants.Intent_request);
             }
         });
-
-
-
     }
+
     @Override
     protected void onActivityResult(int requestCode , int resultCode, Intent data){
         if(resultCode == Constants.Intent_request){
@@ -106,7 +102,30 @@ public class MainActivity extends AppCompatActivity {
             TextView summary_of_counters = (TextView) findViewById(R.id.Number_Counters);
             summary_of_counters.setText(""+size_of_counters);
             adapter.notifyDataSetChanged();
+           // saveInFile();
         }
     }
+
+   /* private void saveInFile() {
+        try {
+            FileOutputStream fos = openFileOutput(FILENAME,
+                    Context.MODE_PRIVATE);
+            OutputStreamWriter writer = new OutputStreamWriter(fos);
+            Gson gson = new Gson();
+            gson.toJson(tweets,writer);
+            writer.flush();
+
+            fos.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+            //e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            throw new RuntimeException();
+            //e.printStackTrace();
+        }
+    }
+    */
 
 }

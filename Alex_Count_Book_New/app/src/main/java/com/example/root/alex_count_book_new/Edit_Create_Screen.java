@@ -26,7 +26,7 @@ public class Edit_Create_Screen extends AppCompatActivity {
     public static TextView Incoming_value_current;
     public static String incoming_value;
     public static TextView Incoming_comment;
-
+    public static String incoming_date;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,16 +50,19 @@ public class Edit_Create_Screen extends AppCompatActivity {
             String incoming_comment = incomingIntent.getStringExtra("comment_of_list");
             String incoming_name = incomingIntent.getStringExtra("name_of_list");
 
+            incoming_date = incomingIntent.getStringExtra("date_of_list");
+            Log.d(TAG, "onCreate: the date from the incoming data is  " + incoming_date);
+
             incoming_value = incomingIntent.getStringExtra("value_of_list");
             Incoming_comment.setText(incoming_comment);
             Incoming_data_name.setText(incoming_name);
             Incoming_value_init.setText(incoming_value);
             Incoming_value_current.setText(incoming_value);
             int current_value = Integer.parseInt(incoming_value);
+            old_value = Integer.parseInt(incoming_value);
             value = current_value;
 
         }
-
 
         Date date = new Date();
         Log.d(TAG, "onCreate: The date is now " + date);
@@ -145,13 +148,15 @@ public class Edit_Create_Screen extends AppCompatActivity {
         String Item_comment = ((EditText)findViewById(R.id.Comment)).getText().toString();
         Date date_to_send = new Date();
         String String_date = date_to_send.toString();
+        Log.d(TAG, "Save_button_clicked: the String ITEM_NAME "+ Item_name);
 
         if(Item_name.equals(""))
         {
 
         }
+
         // fix the if Item_curr_value = blank error
-        if(Item_curr_value.equals("")){
+        /*if(Item_curr_value.equals("")){
             Log.d(TAG, "Save_button_clicked: i am in this where curr_value.equals");
             Intent intent = new Intent();
             intent.putExtra("name", Item_name);
@@ -162,17 +167,35 @@ public class Edit_Create_Screen extends AppCompatActivity {
             setResult(Constants.RESULT_OK,intent);
             finish();
         }
+        */
         else{
             Intent intent = new Intent();
-            intent.putExtra("name", Item_name);
-            intent.putExtra("value",Item_curr_value);
-            intent.putExtra("date",String_date);
-            intent.putExtra("comment",Item_comment);
-            Log.d(TAG, "Save_button_clicked: the name is " + Item_curr_value);
-            setResult(Constants.RESULT_OK,intent);
-            finish();
+            Log.d(TAG, "Save_button_clicked: the olvdvalue is " + old_value);
+            int Check_if_old_is_to_curr = Integer.parseInt(Item_curr_value);
+
+            if(Check_if_old_is_to_curr == old_value){
+                intent.putExtra("name", Item_name);
+                intent.putExtra("value",Item_curr_value);
+                intent.putExtra("comment",Item_comment);
+                Log.d(TAG, "Save_button_clicked: the incoming date is this " + incoming_date);
+                intent.putExtra("date",incoming_date);
+                Log.d(TAG, "Save_button_clicked: the name is " + Item_curr_value);
+                setResult(Constants.RESULT_OK,intent);
+                finish();
+            }
+            else {
+                intent.putExtra("name", Item_name);
+                intent.putExtra("value", Item_curr_value);
+                intent.putExtra("date", String_date);
+                intent.putExtra("comment", Item_comment);
+                Log.d(TAG, "Save_button_clicked: the name is " + Item_curr_value);
+                setResult(Constants.RESULT_OK, intent);
+                finish();
+            }
         }
     }
+
+    //Displays
     public void Display(int num){
         if(num <= 0 ){
             num = 0;
