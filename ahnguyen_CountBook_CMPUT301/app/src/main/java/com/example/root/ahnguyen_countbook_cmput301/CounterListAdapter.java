@@ -15,8 +15,12 @@ import java.util.ArrayList;
  */
 
 /*
+ Ahnguyen 1480849
+ CMPUT 301
  This CounterListAdapter was made by following a tutorial on how to create custom layouts for our listview
  the author of this and the link is below
+ Mitch Tabian
+ https://www.youtube.com/watch?v=E6vE8fqQPTE&t=281s
 
  by following this tutorial we are able to create a custom listview where we're now able to display
  three textviews on our list instead of just one textview we now have three of them which is more
@@ -29,6 +33,8 @@ class CounterListAdapter extends ArrayAdapter<Counter> {
     private Context mcContext;
     int mResource;
 
+
+    
     public CounterListAdapter(Context context,int resource, ArrayList<Counter> objects) {
         super(context, resource, objects);
         mcContext = context;

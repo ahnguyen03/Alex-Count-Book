@@ -20,17 +20,17 @@ import java.util.Date;
 //Creating all the variables being used in this class
 public class Edit_Create_Screen extends AppCompatActivity {
     private  final String TAG = "Edit_Create_Screen";
-    public static int  value = 0;
-    public static int old_value;
-    public static int position;
-    public static TextView Incoming_data_name;
-    public static TextView Incoming_value_init;
-    public static TextView Incoming_value_current;
-    public static String incoming_value;
-    public static TextView Incoming_comment;
-    public static String incoming_date;
-    public static int Am_i_creating;
-    public SimpleDateFormat format;
+    private static int  value = 0;
+    private static int old_value;
+    private static int position;
+    private static TextView Incoming_data_name;
+    private static TextView Incoming_value_init;
+    private static TextView Incoming_value_current;
+    private static String incoming_value;
+    private static TextView Incoming_comment;
+    private static String incoming_date;
+    private static int Am_i_creating;
+    private SimpleDateFormat format;
 
     //When going to the second activity we  initialize everything
     @Override

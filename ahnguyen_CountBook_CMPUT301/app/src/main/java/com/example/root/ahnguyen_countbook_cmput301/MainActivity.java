@@ -33,16 +33,16 @@ public class MainActivity extends AppCompatActivity {
     //This is the initialization of Variables being used
     private static final String FILENAME = "file.sav";
     private static final String TAG = "MainActivity";
-    public static ArrayList<Counter> counter_list;
-    public static ArrayList<String> comment_list;
-    CounterListAdapter adapter;
-    String incoming_name;
-    String incoming_value;
-    String incoming_date;
-    String incoming_comment;
-    int incoming_position;
-    public static int size_of_counters;
-    public ListView counter_list_view;
+    private static ArrayList<Counter> counter_list;
+    private static ArrayList<String> comment_list;
+    private CounterListAdapter adapter;
+    private String incoming_name;
+    private String incoming_value;
+    private String incoming_date;
+    private String incoming_comment;
+    private int incoming_position;
+    private static int size_of_counters;
+    private ListView counter_list_view;
 
     //The method of onCreate when starting the app
     @Override
