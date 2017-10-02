@@ -11,6 +11,9 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -51,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         counter_list_view = (ListView) findViewById(R.id.List_view);
         counter_list = new ArrayList<>();
+        loadFromFile();
         //Right here is using a custom Array Adapter for my listview where it will display 3 Textviews
         adapter = new CounterListAdapter(this, R.layout.adapter_view, counter_list);
         counter_list_view.setAdapter(adapter);
         size_of_counters = counter_list.size();
-
         TextView summary_of_counters = (TextView) findViewById(R.id.Number_Counters);
         summary_of_counters.setText("" + size_of_counters);
 
@@ -144,26 +147,13 @@ public class MainActivity extends AppCompatActivity {
                 }
 
             }
-            //My attempt to save/load the data which did not work
-            //saveInFile();
         }
-    }
-    /*
-    @Override
-    public void onStart(){
-        Log.d(TAG, "onStart: lsol im in here ");
-        super.onStart();
-        loadFromFile();
-        counter_list_view = (ListView) findViewById(R.id.List_view);
-
-        adapter = new CounterListAdapter(this, R.layout.adapter_view, counter_list);
-
-        counter_list_view.setAdapter(adapter);
+        saveInFile();
 
     }
-    */
 
-  /*  private void loadFromFile() {
+    //Following the code provided from Tweet i implemeneted the method of save/load
+    private void loadFromFile() {
         //ArrayList<String> tweets = new ArrayList<String>();
         try {
             FileInputStream fis = openFileInput(FILENAME);
@@ -210,5 +200,5 @@ public class MainActivity extends AppCompatActivity {
             //e.printStackTrace();
         }
     }
-    */
+
 }
