@@ -34,7 +34,7 @@ class CounterListAdapter extends ArrayAdapter<Counter> {
     int mResource;
 
 
-    
+
     public CounterListAdapter(Context context,int resource, ArrayList<Counter> objects) {
         super(context, resource, objects);
         mcContext = context;
