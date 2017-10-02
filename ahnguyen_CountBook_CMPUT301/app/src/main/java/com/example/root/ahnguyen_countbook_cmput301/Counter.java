@@ -3,6 +3,10 @@ package com.example.root.ahnguyen_countbook_cmput301;
 /**
  * Created by root on 10/1/17.
  */
+/*
+Following the tweet class we use setter and getter to initalize our Counter class
+in which we can store individual name/value/date and the the comment depending on the position.
+ */
 
 public class Counter {
     private String name;

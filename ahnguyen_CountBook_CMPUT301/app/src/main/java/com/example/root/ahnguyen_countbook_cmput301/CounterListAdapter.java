@@ -14,6 +14,15 @@ import java.util.ArrayList;
  * Created by root on 10/1/17.
  */
 
+/*
+ This CounterListAdapter was made by following a tutorial on how to create custom layouts for our listview
+ the author of this and the link is below
+
+ by following this tutorial we are able to create a custom listview where we're now able to display
+ three textviews on our list instead of just one textview we now have three of them which is more
+ convient to show the date/value/name
+  */
+
 class CounterListAdapter extends ArrayAdapter<Counter> {
     private static final String TAG = "CounterListAdapter";
 
